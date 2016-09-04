@@ -1,0 +1,31 @@
+{
+    "name": "droid/droid-shell",
+    "description": "Droid plugin droid-shell",
+    "homepage": "http://www.github.com/droid-php/droid-shell",
+    "keywords": ["php", "droid", "shell"],
+    "type": "library",
+    "authors": [
+        {
+            "name": "LinkORB Engineering",
+            "email": "engineering@linkorb.com",
+            "role": "Development"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "symfony/process": "~2.7 || ^3.1",
+        "symfony/console": "~2.7 || ^3.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Droid\\Plugin\\Shell\\": "src/"
+        }
+    },
+    "bin": [
+        "bin/droid-shell"
+    ],
+    "license": "MIT"
+}
