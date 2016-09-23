@@ -4,6 +4,7 @@ namespace Droid\Plugin\Shell\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,11 +23,18 @@ class ShellExecCommand extends Command
     {
         $this
             ->setName('shell:exec')
-            ->setDescription('Initiate a reboot.')
+            ->setDescription('Execute the given command line in Bash.')
             ->addArgument(
                 'command-line',
                 InputArgument::REQUIRED,
                 'The command and arguments to be executed by the shell.'
+            )
+            ->addOption(
+                'timeout',
+                't',
+                InputOption::VALUE_REQUIRED,
+                'The maximum permitted execution time in seconds.',
+                60
             )
         ;
     }
@@ -38,7 +46,8 @@ class ShellExecCommand extends Command
                 'bash',
                 '-c',
                 $input->getArgument('command-line')
-            )
+            ),
+            $input->getOption('timeout')
         );
 
         if ($p->run()) {
@@ -58,11 +67,12 @@ class ShellExecCommand extends Command
     /**
      * @return \Symfony\Component\Process\Process
      */
-    private function getProcess($arguments)
+    private function getProcess($arguments, $timeout)
     {
         return $this
             ->processBuilder
             ->setArguments($arguments)
+            ->setTimeout($timeout)
             ->getProcess()
         ;
     }
